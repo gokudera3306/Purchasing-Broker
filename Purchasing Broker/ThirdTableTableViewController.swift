@@ -16,62 +16,63 @@ class ThirdTableTableViewController: UITableViewController {
     var products = [ProductData]()
     var catchItem = [ProductData]()
     var postItem = [ProductData]()
+    var itemShow = [ProductData]()
+    var itemCount = 0
     
-    @IBAction func Catch(_ sender: Any) {
+    @IBAction func clickCatched(_ sender: UIButton) {
+        sender.setTitle("hi", for: .normal)
+        
+        itemCount = catchItem.count
+        itemShow = catchItem
         
     }
     
-    @IBAction func Post(_ sender: Any) {
+    @IBAction func clickPosted(_ sender: UIButton) {
+        sender.setTitle("hi", for: .normal)
+        itemCount = postItem.count
+        itemShow = postItem
+        print(itemCount)
+        
     }
     
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     
-        /*let defaultProduct = ProductData(initName: "裕珍馨鳳梨酥禮盒(10入)", initNumber: 2, initPrice: 210, initDestination: "中國", initPurchacePlace: "台灣", initBuyer: defaultUser, initPicture: "鳳梨酥", initDeadLine: "2017/07/20")
+        let defaultProduct = ProductData(initName: "裕珍馨鳳梨酥禮盒(10入)", initNumber: 2, initPrice: 210, initDestination: "中國", initPurchacePlace: "台灣", initBuyer: defaultUser, initPicture: "鳳梨酥", initDeadLine: "2017/07/20")
          let defaultProduct2 = ProductData(initName: "裕珍馨奶油酥餅(3入)", initNumber: 5, initPrice: 120, initDestination: "中國", initPurchacePlace: "台灣", initBuyer: defaultUser, initPicture: "奶油酥餅", initDeadLine: "2017/06/30")
          let defaultProduct3 = ProductData(initName: "伊蕾特布丁奶酪(鮮奶布丁)", initNumber: 10, initPrice: 38, initDestination: "中國", initPurchacePlace: "台灣", initBuyer: defaultUser, initPicture: "布丁奶酪", initDeadLine: "2017/07/04")
-         let defaultProduct4 = ProductData(initName: "伊蕾特乳酪塔(6入)", initNumber: 2, initPrice: 390, initDestination: "中國", initPurchacePlace: "台灣", initBuyer: defaultUser2, initPicture: "雪藏乳酪塔", initDeadLine: "2017/07/12")*/
-        /*
-        if let saveProduct = UserDefaults.standard.object(forKey: "producList"){
-            products = saveProduct as! [ProductData]
-        }*/
+         let defaultProduct4 = ProductData(initName: "伊蕾特乳酪塔(6入)", initNumber: 2, initPrice: 390, initDestination: "中國", initPurchacePlace: "台灣", initBuyer: defaultUser2, initPicture: "雪藏乳酪塔", initDeadLine: "2017/07/12")
         
+        products.append(defaultProduct)
+        products.append(defaultProduct2)
+        products.append(defaultProduct3)
+        products.append(defaultProduct4)
+        
+
+        /*
         let saveProduct = UserDefaults.standard
         
         //saveProduct.removeObject(forKey: "productList")
         
         if let temp = saveProduct.object(forKey: "productList2"){
             products = temp as! [ProductData]
-        }
+        }*/
         
-        /*if let temp = saveProduct.object(forKey: "productList"){
-         products = temp as! [ProductData]
-         }*/
-        
-        /*
-         for var i in 0...products.count
-         {
-         if products[i].buyer.account == defaultUser.account
-         {
-         postItem.append(products[i])
-         }
+         for var i in 0...products.count-1{
+            if products[i].buyer.account == "aaa"{
+                postItem.append(products[i])
+            }
          }
          
-         for var i in 0...products.count
-         {
-         if products[i].broker?.account == defaultUser.account
-         {
-         catchItem.append(products[i])
+         for var i in 0...products.count-1{
+            if products[i].broker?.account == "aaa"{
+                catchItem.append(products[i])
+            }
          }
-         }*/
         
-        /*products.append(defaultProduct)
-         products.append(defaultProduct2)
-         products.append(defaultProduct3)
-         products.append(defaultProduct4)
-         */
-        
+        itemCount = postItem.count
+        itemShow = postItem
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -95,7 +96,7 @@ class ThirdTableTableViewController: UITableViewController {
     //set product count
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return products.count + 1
+        return itemCount + 1
     }
     
     //segue/go to detail
@@ -122,17 +123,15 @@ class ThirdTableTableViewController: UITableViewController {
 
         else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "dataCell", for: indexPath) as! ThirdDataCell
-            
-            cell.productImage.image = UIImage( named: products[indexPath.row - 1].picture )
-            cell.productName.text = products[indexPath.row - 1].name
+            cell.productImage.image = UIImage( named: itemShow[indexPath.row - 1].picture )
+            cell.productName.text = itemShow[indexPath.row - 1].name
             //cell.productDueDate.text = products[indexPath.row - 1].deadLine
-            //cell.productPrice.text = "$\(products[indexPath.row - 1].total)"
-            cell.productInfo1.text = products[indexPath.row - 1].purchacePlace
-            cell.productInfo2.text = "$\(products[indexPath.row - 1].price)"
-            cell.productInfo3.text = products[indexPath.row - 1].deadLine
+                //cell.productPrice.text = "$\(products[indexPath.row - 1].total)"
+            cell.productInfo1.text = itemShow[indexPath.row - 1].purchacePlace
+            cell.productInfo2.text = "$\(itemShow[indexPath.row - 1].price)"
+            cell.productInfo3.text = itemShow[indexPath.row - 1].deadLine
             return cell
         }
-
     }
     
     //set module lenth

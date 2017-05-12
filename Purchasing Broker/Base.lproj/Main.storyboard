@@ -74,33 +74,40 @@
                                 <rect key="frame" x="0.0" y="28" width="375" height="50"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="UBp-nR-XTM" id="Rf4-MV-aUp">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="ZIe-xO-TNm">
-                                            <rect key="frame" x="15" y="4" width="158" height="39"/>
+                                            <rect key="frame" x="15" y="4" width="202" height="39"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="edu-Jk-dJB">
-                                                    <rect key="frame" x="0.0" y="0.0" width="45" height="39"/>
+                                                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="edu-Jk-dJB">
+                                                    <rect key="frame" x="0.0" y="0.0" width="67" height="39"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="22"/>
-                                                    <state key="normal" title="接單"/>
+                                                    <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <state key="normal" title="已承接"/>
+                                                    <state key="selected">
+                                                        <color key="titleColor" red="1" green="0.20633823339999999" blue="0.14479195410000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                    </state>
                                                     <connections>
-                                                        <action selector="Catch:" destination="PwQ-CP-ASo" eventType="touchUpInside" id="gwR-Qg-IYg"/>
+                                                        <action selector="clickCatched:" destination="PwQ-CP-ASo" eventType="touchUpInside" id="Ruo-Tm-ino"/>
                                                     </connections>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="/" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nMc-Ds-LmY">
-                                                    <rect key="frame" x="75" y="0.0" width="7.5" height="39"/>
+                                                    <rect key="frame" x="97" y="0.0" width="7.5" height="39"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="21"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oyi-Rp-AvT">
-                                                    <rect key="frame" x="112.5" y="0.0" width="45" height="39"/>
+                                                    <rect key="frame" x="134.5" y="0.0" width="67" height="39"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="22"/>
-                                                    <state key="normal" title="發單"/>
+                                                    <state key="normal" title="已訂購"/>
+                                                    <state key="selected">
+                                                        <color key="titleColor" red="1" green="0.20633823339999999" blue="0.14479195410000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                    </state>
                                                     <connections>
-                                                        <action selector="Post:" destination="PwQ-CP-ASo" eventType="touchUpInside" id="KCL-Bg-x0f"/>
+                                                        <action selector="clickPosted:" destination="PwQ-CP-ASo" eventType="touchUpInside" id="M9n-8I-67b"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -108,15 +115,15 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="catchProduct" destination="edu-Jk-dJB" id="r3J-CZ-VP1"/>
-                                    <outlet property="postProduct" destination="oyi-Rp-AvT" id="9Hs-ZP-jed"/>
+                                    <outlet property="catched" destination="edu-Jk-dJB" id="B56-Zl-6gv"/>
+                                    <outlet property="posted" destination="oyi-Rp-AvT" id="ZL5-xJ-Z6f"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="dataCell" rowHeight="125" id="k0J-2x-sXw" customClass="ThirdDataCell" customModule="Purchasing_Broker" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="78" width="375" height="125"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="k0J-2x-sXw" id="dhi-Xt-JxV">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="124"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="125"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="cSu-ES-ksT">
