@@ -18,21 +18,21 @@ class ThirdTableTableViewController: UITableViewController {
     var postItem = [ProductData]()
     var itemShow = [ProductData]()
     var itemCount = 0
+    var situation = "catched"
     
     @IBAction func clickCatched(_ sender: UIButton) {
-        sender.setTitle("hi", for: .normal)
-        
         itemCount = catchItem.count
         itemShow = catchItem
-        
+        situation = "catched"
+        //更新頁面
+        tableView.reloadData()
     }
     
     @IBAction func clickPosted(_ sender: UIButton) {
-        sender.setTitle("hi", for: .normal)
         itemCount = postItem.count
         itemShow = postItem
-        print(itemCount)
-        
+        situation = "posted"
+        tableView.reloadData()
     }
     
     
@@ -60,19 +60,19 @@ class ThirdTableTableViewController: UITableViewController {
         }*/
         
          for var i in 0...products.count-1{
-            if products[i].buyer.account == "aaa"{
+            if products[i].buyer.account == defaultUser2.account{
                 postItem.append(products[i])
             }
          }
          
          for var i in 0...products.count-1{
-            if products[i].broker?.account == "aaa"{
+            if products[i].broker?.account == defaultUser2.account{
                 catchItem.append(products[i])
             }
          }
-        
-        itemCount = postItem.count
-        itemShow = postItem
+        //default 已承接
+        itemCount = catchItem.count
+        itemShow = catchItem
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -123,14 +123,31 @@ class ThirdTableTableViewController: UITableViewController {
 
         else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "dataCell", for: indexPath) as! ThirdDataCell
-            cell.productImage.image = UIImage( named: itemShow[indexPath.row - 1].picture )
-            cell.productName.text = itemShow[indexPath.row - 1].name
-            //cell.productDueDate.text = products[indexPath.row - 1].deadLine
-                //cell.productPrice.text = "$\(products[indexPath.row - 1].total)"
-            cell.productInfo1.text = itemShow[indexPath.row - 1].purchacePlace
-            cell.productInfo2.text = "$\(itemShow[indexPath.row - 1].price)"
-            cell.productInfo3.text = itemShow[indexPath.row - 1].deadLine
-            return cell
+            if itemCount == 0{
+                return cell
+            }
+            else{
+                cell.productImage.image = UIImage( named: itemShow[indexPath.row - 1].picture )
+                cell.productName.text = itemShow[indexPath.row - 1].name
+                if situation == "catched"{
+                    cell.productInfo1.text = "購買地點："+itemShow[indexPath.row - 1].purchacePlace
+                    cell.productInfo2.text = "商品原價：$\(itemShow[indexPath.row - 1].price)"
+                    cell.productInfo3.text = "交貨期限："+itemShow[indexPath.row - 1].deadLine
+                }
+                if situation == "posted"
+                {
+                    cell.productInfo1.text = "出價：\(itemShow[indexPath.row - 1].total)"
+                    cell.productInfo2.text = "交貨期限：$\(itemShow[indexPath.row - 1].deadLine)"
+                    if itemShow[indexPath.row - 1].broker == nil{
+                        cell.productInfo3.text = "狀態：尚未有人接單"
+                    }
+                    else{
+                        cell.productInfo3.text = "狀態：\(itemShow[indexPath.row - 1].broker)已接單"
+                    }
+                    
+                }
+                return cell
+            }
         }
     }
     

@@ -7,9 +7,8 @@
 //
 
 import UIKit
-
 class FirstTableViewController: UITableViewController {
-
+    
     let defaultUser = UserData(initName: "TEST1", initAccount: "aaa", initPassword: "0000", initHometown: "台灣", initCredit: 2)
     let defaultUser2 = UserData(initName: "TEST2", initAccount: "bbb", initPassword: "0000", initHometown: "台灣", initCredit: 5)
 
@@ -24,8 +23,6 @@ class FirstTableViewController: UITableViewController {
         let defaultProduct4 = ProductData(initName: "伊蕾特乳酪塔(6入)", initNumber: 2, initPrice: 390, initDestination: "中國", initPurchacePlace: "台灣", initBuyer: defaultUser2, initPicture: "雪藏乳酪塔", initDeadLine: "2017/07/12")
         
         let saveProduct = UserDefaults.standard
-
-        //saveProduct.removeObject(forKey: "productList")
         
         if let temp = saveProduct.object(forKey: "productList2"){
             products = temp as! [ProductData]
@@ -35,8 +32,10 @@ class FirstTableViewController: UITableViewController {
         products.append(defaultProduct2)
         products.append(defaultProduct3)
         products.append(defaultProduct4)
-        
-        //saveProduct.set(defaultProduct, forKey: "productList2")
+     
+        //let encodedData = NSKeyedArchiver.archivedData(withRootObject: products)
+        saveProduct.set(products, forKey: "productList2")
+    
         
  
         // Uncomment the following line to preserve selection between presentations

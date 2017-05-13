@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class UserData
+public class UserData:NSObject
 {
     var name: String
     var account: String

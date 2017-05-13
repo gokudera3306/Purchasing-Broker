@@ -9,6 +9,7 @@
 import Foundation
 
 public class ProductData
+    
 {
     var name: String
     var number: Int
