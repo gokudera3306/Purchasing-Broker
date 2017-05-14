@@ -34,7 +34,7 @@ class FirstTableViewController: UITableViewController {
         products.append(defaultProduct4)
      
         //let encodedData = NSKeyedArchiver.archivedData(withRootObject: products)
-        saveProduct.set(products, forKey: "productList2")
+        //saveProduct.set(products, forKey: "productList2")
     
         
  

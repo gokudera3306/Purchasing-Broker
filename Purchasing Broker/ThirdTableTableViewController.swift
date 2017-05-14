@@ -44,6 +44,9 @@ class ThirdTableTableViewController: UITableViewController {
          let defaultProduct3 = ProductData(initName: "伊蕾特布丁奶酪(鮮奶布丁)", initNumber: 10, initPrice: 38, initDestination: "中國", initPurchacePlace: "台灣", initBuyer: defaultUser, initPicture: "布丁奶酪", initDeadLine: "2017/07/04")
          let defaultProduct4 = ProductData(initName: "伊蕾特乳酪塔(6入)", initNumber: 2, initPrice: 390, initDestination: "中國", initPurchacePlace: "台灣", initBuyer: defaultUser2, initPicture: "雪藏乳酪塔", initDeadLine: "2017/07/12")
         
+        //check if broker != nil
+        defaultProduct.broker = defaultUser2
+        
         products.append(defaultProduct)
         products.append(defaultProduct2)
         products.append(defaultProduct3)
@@ -60,13 +63,13 @@ class ThirdTableTableViewController: UITableViewController {
         }*/
         
          for var i in 0...products.count-1{
-            if products[i].buyer.account == defaultUser2.account{
+            if products[i].buyer.account == defaultUser.account{
                 postItem.append(products[i])
             }
          }
          
          for var i in 0...products.count-1{
-            if products[i].broker?.account == defaultUser2.account{
+            if products[i].broker?.account == defaultUser.account{
                 catchItem.append(products[i])
             }
          }
@@ -108,7 +111,7 @@ class ThirdTableTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showDetail2" {
             let controller = segue.destination as! DetailViewController
-            controller.productData = products[sender as! Int - 1]
+            controller.productData = itemShow[sender as! Int - 1]
         }
         
     }
@@ -142,7 +145,7 @@ class ThirdTableTableViewController: UITableViewController {
                         cell.productInfo3.text = "狀態：尚未有人接單"
                     }
                     else{
-                        cell.productInfo3.text = "狀態：\(itemShow[indexPath.row - 1].broker)已接單"
+                        cell.productInfo3.text = "狀態：\((itemShow[indexPath.row - 1].broker?.account)!)已接單"
                     }
                     
                 }
