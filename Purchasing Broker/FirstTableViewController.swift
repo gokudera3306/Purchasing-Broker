@@ -17,24 +17,24 @@ class FirstTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let defaultProduct = ProductData(initName: "裕珍馨鳳梨酥禮盒(10入)", initNumber: 2, initPrice: 210, initDestination: "中國", initPurchacePlace: "台灣", initBuyer: defaultUser, initPicture: "鳳梨酥", initDeadLine: "2017/07/20")
+        /*let defaultProduct = ProductData(initName: "裕珍馨鳳梨酥禮盒(10入)", initNumber: 2, initPrice: 210, initDestination: "中國", initPurchacePlace: "台灣", initBuyer: defaultUser, initPicture: "鳳梨酥", initDeadLine: "2017/07/20")
         let defaultProduct2 = ProductData(initName: "裕珍馨奶油酥餅(3入)", initNumber: 5, initPrice: 120, initDestination: "中國", initPurchacePlace: "台灣", initBuyer: defaultUser, initPicture: "奶油酥餅", initDeadLine: "2017/06/30")
-        let defaultProduct3 = ProductData(initName: "伊蕾特布丁奶酪(鮮奶布丁)", initNumber: 10, initPrice: 38, initDestination: "中國", initPurchacePlace: "台灣", initBuyer: defaultUser, initPicture: "布丁奶酪", initDeadLine: "2017/07/04")
+       let defaultProduct3 = ProductData(initName: "伊蕾特布丁奶酪(鮮奶布丁)", initNumber: 10, initPrice: 38, initDestination: "中國", initPurchacePlace: "台灣", initBuyer: defaultUser, initPicture: "布丁奶酪", initDeadLine: "2017/07/04")
         let defaultProduct4 = ProductData(initName: "伊蕾特乳酪塔(6入)", initNumber: 2, initPrice: 390, initDestination: "中國", initPurchacePlace: "台灣", initBuyer: defaultUser2, initPicture: "雪藏乳酪塔", initDeadLine: "2017/07/12")
-        
+        */
         let saveProduct = UserDefaults.standard
         
         if let temp = saveProduct.object(forKey: "productList2"){
-            products = temp as! [ProductData]
+            products = NSKeyedUnarchiver.unarchiveObject(with: temp as! Data) as! [ProductData]
         }
-        
+        /*
         products.append(defaultProduct)
         products.append(defaultProduct2)
         products.append(defaultProduct3)
-        products.append(defaultProduct4)
+        products.append(defaultProduct4)*/
      
-        //let encodedData = NSKeyedArchiver.archivedData(withRootObject: products)
-        //saveProduct.set(products, forKey: "productList2")
+        let encodedData = NSKeyedArchiver.archivedData(withRootObject: products)
+        saveProduct.set(encodedData, forKey: "productList2")
     
         
  
@@ -84,19 +84,19 @@ class FirstTableViewController: UITableViewController {
             cell.productDueDate.text = products[indexPath.row - 1].deadLine
             cell.productPrice.text = "$\(products[indexPath.row - 1].total)"
             
-            if (products[indexPath.row - 1].buyer).credit >= 1 {
+            if ((products[indexPath.row - 1].buyer)?.credit)! >= 1 {
                 cell.star1.image = #imageLiteral(resourceName: "star")
             }
-            if (products[indexPath.row - 1].buyer).credit >= 2 {
+            if ((products[indexPath.row - 1].buyer)?.credit)! >= 2 {
                 cell.star2.image = #imageLiteral(resourceName: "star")
             }
-            if (products[indexPath.row - 1].buyer).credit >= 3 {
+            if ((products[indexPath.row - 1].buyer)?.credit)! >= 3 {
                 cell.star3.image = #imageLiteral(resourceName: "star")
             }
-            if (products[indexPath.row - 1].buyer).credit >= 4 {
+            if ((products[indexPath.row - 1].buyer)?.credit)! >= 4 {
                 cell.star4.image = #imageLiteral(resourceName: "star")
             }
-            if (products[indexPath.row - 1].buyer).credit >= 5 {
+            if ((products[indexPath.row - 1].buyer)?.credit)! >= 5 {
                 cell.star5.image = #imageLiteral(resourceName: "star")
             }
             
@@ -122,6 +122,7 @@ class FirstTableViewController: UITableViewController {
         if segue.identifier == "showDetail" {
             let controller = segue.destination as! DetailViewController
             controller.productData = products[sender as! Int - 1]
+            controller.whichController = 1
         }
         
     }

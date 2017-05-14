@@ -11,6 +11,7 @@ import UIKit
 class DetailViewController: UIViewController {
 
     var productData: ProductData? = nil
+    var whichController: Int? = nil
     
     @IBOutlet weak var productPicture: UIImageView!
     @IBOutlet weak var productNumber: UILabel!
@@ -27,6 +28,7 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var star5: UIImageView!
     
     @IBOutlet weak var productImage: UIImageView!
+    @IBOutlet weak var getOrderBtn: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,6 +58,11 @@ class DetailViewController: UIViewController {
         }
         if (productData?.buyer)!.credit >= 5 {
             star5.image = #imageLiteral(resourceName: "star")
+        }
+        
+        if whichController! == 3 {
+            getOrderBtn.isHidden = true
+            getOrderBtn.isEnabled = false
         }
     }
 

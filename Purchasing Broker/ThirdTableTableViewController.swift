@@ -39,31 +39,16 @@ class ThirdTableTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     
-        let defaultProduct = ProductData(initName: "裕珍馨鳳梨酥禮盒(10入)", initNumber: 2, initPrice: 210, initDestination: "中國", initPurchacePlace: "台灣", initBuyer: defaultUser, initPicture: "鳳梨酥", initDeadLine: "2017/07/20")
-         let defaultProduct2 = ProductData(initName: "裕珍馨奶油酥餅(3入)", initNumber: 5, initPrice: 120, initDestination: "中國", initPurchacePlace: "台灣", initBuyer: defaultUser, initPicture: "奶油酥餅", initDeadLine: "2017/06/30")
-         let defaultProduct3 = ProductData(initName: "伊蕾特布丁奶酪(鮮奶布丁)", initNumber: 10, initPrice: 38, initDestination: "中國", initPurchacePlace: "台灣", initBuyer: defaultUser, initPicture: "布丁奶酪", initDeadLine: "2017/07/04")
-         let defaultProduct4 = ProductData(initName: "伊蕾特乳酪塔(6入)", initNumber: 2, initPrice: 390, initDestination: "中國", initPurchacePlace: "台灣", initBuyer: defaultUser2, initPicture: "雪藏乳酪塔", initDeadLine: "2017/07/12")
-        
-        //check if broker != nil
-        defaultProduct.broker = defaultUser2
-        
-        products.append(defaultProduct)
-        products.append(defaultProduct2)
-        products.append(defaultProduct3)
-        products.append(defaultProduct4)
-        
-
-        /*
         let saveProduct = UserDefaults.standard
         
         //saveProduct.removeObject(forKey: "productList")
         
         if let temp = saveProduct.object(forKey: "productList2"){
-            products = temp as! [ProductData]
-        }*/
+            products = NSKeyedUnarchiver.unarchiveObject(with: temp as! Data) as! [ProductData]
+        }
         
          for var i in 0...products.count-1{
-            if products[i].buyer.account == defaultUser.account{
+            if products[i].buyer?.account == defaultUser.account{
                 postItem.append(products[i])
             }
          }
@@ -112,6 +97,7 @@ class ThirdTableTableViewController: UITableViewController {
         if segue.identifier == "showDetail2" {
             let controller = segue.destination as! DetailViewController
             controller.productData = itemShow[sender as! Int - 1]
+            controller.whichController = 3
         }
         
     }
