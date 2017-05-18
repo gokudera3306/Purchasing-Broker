@@ -17,8 +17,10 @@
 		66CA6CF41EAE46F1006D306F /* FirstTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66CA6CF31EAE46F1006D306F /* FirstTableViewController.swift */; };
 		66CA6CFA1EAE4BAD006D306F /* FirstTopCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66CA6CF91EAE4BAD006D306F /* FirstTopCell.swift */; };
 		66CA6CFC1EAE4BC1006D306F /* FirstDataCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66CA6CFB1EAE4BC1006D306F /* FirstDataCell.swift */; };
-		D50EF1D01EC08A8200F60677 /* FourthTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D50EF1CF1EC08A8200F60677 /* FourthTableViewController.swift */; };
 		D50EF1D21EC0A27E00F60677 /* ThirdTableTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D50EF1D11EC0A27E00F60677 /* ThirdTableTableViewController.swift */; };
+		D5681A461ECB3F4E00364AC4 /* SecondTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5681A451ECB3F4E00364AC4 /* SecondTableViewController.swift */; };
+		D5681A481ECC4E6400364AC4 /* SecondTopCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5681A471ECC4E6400364AC4 /* SecondTopCell.swift */; };
+		D5681A4A1ECC527200364AC4 /* SecondDataCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5681A491ECC527200364AC4 /* SecondDataCell.swift */; };
 		D588537E1EC59FAC005549CD /* ThirdTopCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D588537D1EC59FAC005549CD /* ThirdTopCell.swift */; };
 		D58980391EC33EA9003A1FE5 /* ThirdDataCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D58980381EC33EA9003A1FE5 /* ThirdDataCell.swift */; };
 /* End PBXBuildFile section */
@@ -36,8 +38,10 @@
 		66CA6CF31EAE46F1006D306F /* FirstTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirstTableViewController.swift; sourceTree = "<group>"; };
 		66CA6CF91EAE4BAD006D306F /* FirstTopCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirstTopCell.swift; sourceTree = "<group>"; };
 		66CA6CFB1EAE4BC1006D306F /* FirstDataCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirstDataCell.swift; sourceTree = "<group>"; };
-		D50EF1CF1EC08A8200F60677 /* FourthTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FourthTableViewController.swift; sourceTree = "<group>"; };
 		D50EF1D11EC0A27E00F60677 /* ThirdTableTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThirdTableTableViewController.swift; sourceTree = "<group>"; };
+		D5681A451ECB3F4E00364AC4 /* SecondTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecondTableViewController.swift; sourceTree = "<group>"; };
+		D5681A471ECC4E6400364AC4 /* SecondTopCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecondTopCell.swift; sourceTree = "<group>"; };
+		D5681A491ECC527200364AC4 /* SecondDataCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecondDataCell.swift; sourceTree = "<group>"; };
 		D588537D1EC59FAC005549CD /* ThirdTopCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThirdTopCell.swift; sourceTree = "<group>"; };
 		D58980381EC33EA9003A1FE5 /* ThirdDataCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThirdDataCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -83,10 +87,12 @@
 				66CA6CF91EAE4BAD006D306F /* FirstTopCell.swift */,
 				66CA6CFB1EAE4BC1006D306F /* FirstDataCell.swift */,
 				6616999C1EB586EF000989D6 /* DetailViewController.swift */,
+				D5681A451ECB3F4E00364AC4 /* SecondTableViewController.swift */,
+				D5681A471ECC4E6400364AC4 /* SecondTopCell.swift */,
 				D50EF1D11EC0A27E00F60677 /* ThirdTableTableViewController.swift */,
 				D588537D1EC59FAC005549CD /* ThirdTopCell.swift */,
 				D58980381EC33EA9003A1FE5 /* ThirdDataCell.swift */,
-				D50EF1CF1EC08A8200F60677 /* FourthTableViewController.swift */,
+				D5681A491ECC527200364AC4 /* SecondDataCell.swift */,
 			);
 			path = "Purchasing Broker";
 			sourceTree = "<group>";
@@ -165,7 +171,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				666CBEFD1EAF0CE3007D85FF /* UserData.swift in Sources */,
-				D50EF1D01EC08A8200F60677 /* FourthTableViewController.swift in Sources */,
+				D5681A4A1ECC527200364AC4 /* SecondDataCell.swift in Sources */,
 				D588537E1EC59FAC005549CD /* ThirdTopCell.swift in Sources */,
 				66CA6CFA1EAE4BAD006D306F /* FirstTopCell.swift in Sources */,
 				66CA6CFC1EAE4BC1006D306F /* FirstDataCell.swift in Sources */,
@@ -174,6 +180,8 @@
 				66CA6CDE1EACE812006D306F /* AppDelegate.swift in Sources */,
 				D50EF1D21EC0A27E00F60677 /* ThirdTableTableViewController.swift in Sources */,
 				66CA6CF21EADD05B006D306F /* ProductData.swift in Sources */,
+				D5681A481ECC4E6400364AC4 /* SecondTopCell.swift in Sources */,
+				D5681A461ECB3F4E00364AC4 /* SecondTableViewController.swift in Sources */,
 				6616999D1EB586EF000989D6 /* DetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

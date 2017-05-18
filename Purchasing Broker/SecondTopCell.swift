@@ -1,17 +1,15 @@
 //
-//  ThirdTopCell.swift
+//  SecondTopCell.swift
 //  Purchasing Broker
 //
-//  Created by 連翊涵 on 2017/5/12.
+//  Created by 連翊涵 on 2017/5/17.
 //  Copyright © 2017年 Adam Hung. All rights reserved.
 //
 
 import UIKit
 
-class ThirdTopCell: UITableViewCell {
-
-    @IBOutlet weak var catched: UIButton!
-    @IBOutlet weak var posted: UIButton!
+class SecondTopCell: UITableViewCell {
+    @IBOutlet weak var idPhoto: UIImageView!
 
     override func awakeFromNib() {
         super.awakeFromNib()

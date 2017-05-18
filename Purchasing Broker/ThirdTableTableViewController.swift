@@ -20,18 +20,22 @@ class ThirdTableTableViewController: UITableViewController {
     var itemCount = 0
     var situation = "catched"
     
+    
+    
+    
     @IBAction func clickCatched(_ sender: UIButton) {
         itemCount = catchItem.count
         itemShow = catchItem
         situation = "catched"
-        //更新頁面
-        tableView.reloadData()
+        
+        tableView.reloadData()//更新頁面
     }
     
     @IBAction func clickPosted(_ sender: UIButton) {
         itemCount = postItem.count
         itemShow = postItem
         situation = "posted"
+        
         tableView.reloadData()
     }
     
@@ -46,7 +50,6 @@ class ThirdTableTableViewController: UITableViewController {
         if let temp = saveProduct.object(forKey: "productList2"){
             products = NSKeyedUnarchiver.unarchiveObject(with: temp as! Data) as! [ProductData]
         }
-        
          for var i in 0...products.count-1{
             if products[i].buyer?.account == defaultUser.account{
                 postItem.append(products[i])
@@ -106,6 +109,15 @@ class ThirdTableTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "topCell", for: indexPath) as! ThirdTopCell
+            
+            if situation == "catched"{
+                cell.catched.setTitleColor(UIColor.red, for: .normal)
+                cell.posted.setTitleColor(UIColor.gray, for: .normal)
+            }
+            else{
+                cell.catched.setTitleColor(UIColor.gray, for: .normal)
+                cell.posted.setTitleColor(UIColor.red, for: .normal)
+            }
             
             return cell
         }
