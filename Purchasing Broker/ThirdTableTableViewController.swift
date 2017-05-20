@@ -118,7 +118,7 @@ class ThirdTableTableViewController: UITableViewController {
                 cell.catched.setTitleColor(UIColor.gray, for: .normal)
                 cell.posted.setTitleColor(UIColor.red, for: .normal)
             }
-            
+            cell.selectionStyle = .none
             return cell
         }
 
@@ -129,7 +129,7 @@ class ThirdTableTableViewController: UITableViewController {
             }
             else{
                 cell.productImage.image = UIImage( named: itemShow[indexPath.row - 1].picture )
-                cell.productName.text = itemShow[indexPath.row - 1].name
+                cell.productName.text = itemShow[indexPath.row - 1].store + itemShow[indexPath.row - 1].name
                 if situation == "catched"{
                     cell.productInfo1.text = "購買地點："+itemShow[indexPath.row - 1].purchacePlace
                     cell.productInfo2.text = "商品原價：$\(itemShow[indexPath.row - 1].price)"
@@ -137,7 +137,7 @@ class ThirdTableTableViewController: UITableViewController {
                 }
                 if situation == "posted"
                 {
-                    cell.productInfo1.text = "出價：\(itemShow[indexPath.row - 1].total)"
+                    cell.productInfo1.text = "出價：\(itemShow[indexPath.row - 1].offerPrice)"
                     cell.productInfo2.text = "交貨期限：$\(itemShow[indexPath.row - 1].deadLine)"
                     if itemShow[indexPath.row - 1].broker == nil{
                         cell.productInfo3.text = "狀態：尚未有人接單"

@@ -17,12 +17,15 @@ class FirstTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        /*let defaultProduct = ProductData(initName: "裕珍馨鳳梨酥禮盒(10入)", initNumber: 2, initPrice: 210, initDestination: "中國", initPurchacePlace: "台灣", initBuyer: defaultUser, initPicture: "鳳梨酥", initDeadLine: "2017/07/20")
-        let defaultProduct2 = ProductData(initName: "裕珍馨奶油酥餅(3入)", initNumber: 5, initPrice: 120, initDestination: "中國", initPurchacePlace: "台灣", initBuyer: defaultUser, initPicture: "奶油酥餅", initDeadLine: "2017/06/30")
-       let defaultProduct3 = ProductData(initName: "伊蕾特布丁奶酪(鮮奶布丁)", initNumber: 10, initPrice: 38, initDestination: "中國", initPurchacePlace: "台灣", initBuyer: defaultUser, initPicture: "布丁奶酪", initDeadLine: "2017/07/04")
-        let defaultProduct4 = ProductData(initName: "伊蕾特乳酪塔(6入)", initNumber: 2, initPrice: 390, initDestination: "中國", initPurchacePlace: "台灣", initBuyer: defaultUser2, initPicture: "雪藏乳酪塔", initDeadLine: "2017/07/12")
-        */
+        let defaultProduct = ProductData(initStore: "裕珍馨", initName: "鳳梨酥禮盒(10入)", initNumber: 2, initPrice: 210, initDestination: "中國", initPurchacePlace: "台灣", initBuyer: defaultUser, initPicture: "鳳梨酥", initDeadLine: "2017/07/20", initOfferPrice: 450)
+        let defaultProduct2 = ProductData(initStore: "裕珍馨",initName: "奶油酥餅(3入)", initNumber: 5, initPrice: 120, initDestination: "中國", initPurchacePlace: "台灣", initBuyer: defaultUser, initPicture: "奶油酥餅", initDeadLine: "2017/06/30", initOfferPrice: 700)
+       let defaultProduct3 = ProductData(initStore: "依蕾特",initName: "鮮奶布丁禮盒(12入)", initNumber: 1, initPrice: 390, initDestination: "中國", initPurchacePlace: "台灣", initBuyer: defaultUser, initPicture: "布丁奶酪", initDeadLine: "2017/07/04", initOfferPrice: 450)
+        let defaultProduct4 = ProductData(initStore: "依蕾特",initName: "雪藏原味乳酪塔(6入)", initNumber: 2, initPrice: 390, initDestination: "中國", initPurchacePlace: "台灣", initBuyer: defaultUser2, initPicture: "雪藏原味乳酪塔", initDeadLine: "2017/07/12", initOfferPrice: 850)
+ 
         let saveProduct = UserDefaults.standard
+        
+        
+        //saveProduct.removeObject(forKey: "productList2")
         
         if let temp = saveProduct.object(forKey: "productList2"){
             products = NSKeyedUnarchiver.unarchiveObject(with: temp as! Data) as! [ProductData]
@@ -67,7 +70,7 @@ class FirstTableViewController: UITableViewController {
         
         if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "topCell", for: indexPath) as! FirstTopCell
-
+            cell.selectionStyle = .none
             cell.startPlace.tag = 0
             
             cell.startPlace.addTarget(self, action: #selector(changeStartPlace), for: .touchUpInside)
@@ -80,8 +83,8 @@ class FirstTableViewController: UITableViewController {
             let cell = tableView.dequeueReusableCell(withIdentifier: "dataCell", for: indexPath) as! FirstDataCell
             
             cell.productImage.image = UIImage( named: products[indexPath.row - 1].picture )
-            cell.productName.text = products[indexPath.row - 1].name
-            cell.productDueDate.text = products[indexPath.row - 1].deadLine
+            cell.productName.text = products[indexPath.row - 1].store + products[indexPath.row - 1].name
+            cell.productDueDate.text! = products[indexPath.row - 1].deadLine
             cell.productPrice.text = "$\(products[indexPath.row - 1].total)"
             
             if ((products[indexPath.row - 1].buyer)?.credit)! >= 1 {
@@ -113,7 +116,11 @@ class FirstTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row != 0 {
+        if indexPath.row == 0 {
+            //(tableView.cellForRow(at: indexPath) as! FirstTopCell).isSelected = false
+        }
+        else{
+            print(indexPath.row)
             performSegue(withIdentifier: "showDetail", sender: indexPath.row)
         }
     }

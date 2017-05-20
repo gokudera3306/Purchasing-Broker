@@ -35,12 +35,12 @@ class DetailViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         
-        self.title = (productData?.name)!
+        self.title = (productData?.store)! + (productData?.name)!
         productPicture.image = UIImage(named: (productData?.picture)!)
         productNumber.text = "\((productData?.number)!)"
         productPrice.text = "$\((productData?.price)!)"
         totalPrice.text = "$\((productData?.total)!)"
-        offerPrice.text = "$"
+        offerPrice.text = "$\((productData?.offerPrice)!)"
         productOrigin.text = (productData?.purchacePlace)!
         productDeadLine.text = (productData?.deadLine)!
         

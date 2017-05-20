@@ -11,6 +11,7 @@ import Foundation
 public class ProductData: NSObject, NSCoding
     
 {
+    var store:String
     var name: String
     var number: Int
     var price: Int
@@ -19,11 +20,13 @@ public class ProductData: NSObject, NSCoding
     var deadLine: String
     var buyer: UserData?
     var picture: String
+    var offerPrice:Int
     
     var total: Int
     var broker: UserData?
     
     override init(){
+        store = "init"
         name = "init"
         number = 0
         price = 0
@@ -32,12 +35,14 @@ public class ProductData: NSObject, NSCoding
         buyer = nil
         picture = "init"
         deadLine = "init"
+        offerPrice = 0
         
         total = 0
         broker = nil
     }
     
-    init(initName: String, initNumber: Int, initPrice: Int, initDestination: String, initPurchacePlace: String, initBuyer: UserData, initPicture: String, initDeadLine: String) {
+    init(initStore: String, initName: String, initNumber: Int, initPrice: Int, initDestination: String, initPurchacePlace: String, initBuyer: UserData, initPicture: String, initDeadLine: String, initOfferPrice:Int) {
+        store = initStore
         name = initName
         number = initNumber
         price = initPrice
@@ -46,6 +51,7 @@ public class ProductData: NSObject, NSCoding
         buyer = initBuyer
         picture = initPicture
         deadLine = initDeadLine
+        offerPrice = initOfferPrice
         
         total = initNumber * initPrice
         broker = nil
@@ -53,6 +59,7 @@ public class ProductData: NSObject, NSCoding
     
     required public convenience init(coder aDecoder: NSCoder) {
         self.init()
+        self.store = aDecoder.decodeObject(forKey: "store") as! String!
         self.name = aDecoder.decodeObject(forKey: "name") as! String!
         self.number = aDecoder.decodeInteger(forKey: "number") as Int!
         self.price = aDecoder.decodeInteger(forKey: "price") as Int!
@@ -61,12 +68,14 @@ public class ProductData: NSObject, NSCoding
         self.buyer = aDecoder.decodeObject(forKey: "buyer") as! UserData!
         self.picture = aDecoder.decodeObject(forKey: "picture") as! String!
         self.deadLine = aDecoder.decodeObject(forKey: "deadLine") as! String!
+        self.offerPrice = aDecoder.decodeInteger(forKey: "offerPrice") as Int!
         
         self.total = self.number * self.price
         self.broker = nil
     }
     
     public func encode(with aCoder: NSCoder) {
+        aCoder.encode(self.store, forKey: "store")
         aCoder.encode(self.name, forKey: "name")
         aCoder.encodeCInt(Int32(self.number), forKey: "number")
         aCoder.encodeCInt(Int32(self.price), forKey: "price")
@@ -75,6 +84,7 @@ public class ProductData: NSObject, NSCoding
         aCoder.encode(self.deadLine, forKey: "deadLine")
         aCoder.encode(self.buyer, forKey: "buyer")
         aCoder.encode(self.picture, forKey: "picture")
+        aCoder.encodeCInt(Int32(self.offerPrice), forKey: "offerPrice")
 
         aCoder.encodeCInt(Int32(self.total), forKey: "total")
         aCoder.encode(self.broker, forKey: "broker")

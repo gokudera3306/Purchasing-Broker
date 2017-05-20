@@ -1,15 +1,15 @@
 //
-//  SecondTopCell.swift
+//  productDataCell.swift
 //  Purchasing Broker
 //
-//  Created by 連翊涵 on 2017/5/17.
+//  Created by 連翊涵 on 2017/5/20.
 //  Copyright © 2017年 Adam Hung. All rights reserved.
 //
 
 import UIKit
 
-class SecondTopCell: UITableViewCell {
-    @IBOutlet weak var idPhoto: UIImageView!
+class productDataCell: UITableViewCell {
+    @IBOutlet weak var itemName: UILabel!
 
     override func awakeFromNib() {
         super.awakeFromNib()

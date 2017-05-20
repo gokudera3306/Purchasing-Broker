@@ -1,24 +1,21 @@
 //
-//  SecondTableViewController.swift
+//  ProductTableViewController.swift
 //  Purchasing Broker
 //
-//  Created by 連翊涵 on 2017/5/16.
+//  Created by 連翊涵 on 2017/5/19.
 //  Copyright © 2017年 Adam Hung. All rights reserved.
 //
 
 import UIKit
 
-class SecondTableViewController: UITableViewController {
+class ProductTableViewController: UITableViewController {
     
-    var productAmount = 0
-    var deadline = 0
-    
-    @IBAction func stepperClicked(_ sender: UIStepper) {
-       print(sender.value)
-    }
+    var dataShow = [dataBaseData]()
+    var userChosen: dataBaseData? = nil
+
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -40,36 +37,30 @@ class SecondTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 2
+        return dataShow.count
     }
     
-    
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.row == 0 {
-            return 125
-        }
-        
-        return 490
-    }
-    
-
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.row == 0{
-            let cell = tableView.dequeueReusableCell(withIdentifier: "topCell", for: indexPath) as! SecondTopCell
-            cell.idPhoto.image = #imageLiteral(resourceName: "暫時")
-            return cell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "dataCell", for: indexPath) as! productDataCell
+        cell.itemName.text = dataShow[indexPath.row].name
+
+        return cell
+    }
+ 
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "doneChoose" {
+            let controller = segue.destination as! SecondViewController
+            controller.chosen = userChosen
         }
-        else{
-            let cell = tableView.dequeueReusableCell(withIdentifier: "dataCell1", for: indexPath) as! SecondDataCell
-            
-            return cell
-        }
-       
-      
+    }
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        userChosen = dataShow[indexPath.row]
+        performSegue(withIdentifier: "doneChoose", sender: indexPath.row)
     }
     
-
+    
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
