@@ -8,38 +8,33 @@
 
 import UIKit
 class FirstTableViewController: UITableViewController {
-    
-    let defaultUser = UserData(initName: "TEST1", initAccount: "aaa", initPassword: "0000", initHometown: "台灣", initCredit: 2)
-    let defaultUser2 = UserData(initName: "TEST2", initAccount: "bbb", initPassword: "0000", initHometown: "台灣", initCredit: 5)
 
     var products = [ProductData]()
+    
+    var state = "Taiwan"
+    var key = "productListT2"
+    var currentUser: UserData? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let defaultProduct = ProductData(initStore: "裕珍馨", initName: "鳳梨酥禮盒(10入)", initNumber: 2, initPrice: 210, initDestination: "中國", initPurchacePlace: "台灣", initBuyer: defaultUser, initPicture: "鳳梨酥", initDeadLine: "2017/07/20", initOfferPrice: 450)
-        let defaultProduct2 = ProductData(initStore: "裕珍馨",initName: "奶油酥餅(3入)", initNumber: 5, initPrice: 120, initDestination: "中國", initPurchacePlace: "台灣", initBuyer: defaultUser, initPicture: "奶油酥餅", initDeadLine: "2017/06/30", initOfferPrice: 700)
-       let defaultProduct3 = ProductData(initStore: "依蕾特",initName: "鮮奶布丁禮盒(12入)", initNumber: 1, initPrice: 390, initDestination: "中國", initPurchacePlace: "台灣", initBuyer: defaultUser, initPicture: "布丁奶酪", initDeadLine: "2017/07/04", initOfferPrice: 450)
-        let defaultProduct4 = ProductData(initStore: "依蕾特",initName: "雪藏原味乳酪塔(6入)", initNumber: 2, initPrice: 390, initDestination: "中國", initPurchacePlace: "台灣", initBuyer: defaultUser2, initPicture: "雪藏原味乳酪塔", initDeadLine: "2017/07/12", initOfferPrice: 850)
- 
         let saveProduct = UserDefaults.standard
         
+        //saveProduct.removeObject(forKey: "productListT2")
+        //saveProduct.removeObject(forKey: "productListC2")
         
-        //saveProduct.removeObject(forKey: "productList2")
+        products.removeAll()
         
-        if let temp = saveProduct.object(forKey: "productList2"){
+       
+        if let temp = saveProduct.object(forKey: key){
             products = NSKeyedUnarchiver.unarchiveObject(with: temp as! Data) as! [ProductData]
         }
-        /*
-        products.append(defaultProduct)
-        products.append(defaultProduct2)
-        products.append(defaultProduct3)
-        products.append(defaultProduct4)*/
-     
-        let encodedData = NSKeyedArchiver.archivedData(withRootObject: products)
-        saveProduct.set(encodedData, forKey: "productList2")
-    
         
+        saveProduct.set(false, forKey: "loginState")
+
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadTableData(_:)), name:NSNotification.Name(rawValue: "reload"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(userDidExist(noti:)), name: Notification.Name("userLogin"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(userNotExist(noti:)), name: Notification.Name("userLogout"), object: nil)
  
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -47,7 +42,25 @@ class FirstTableViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
+    
+    func reloadTableData(_ notification: Notification){
+        products.removeAll()
+        let saveProduct = UserDefaults.standard
 
+        if let temp = saveProduct.object(forKey: key){
+            products = NSKeyedUnarchiver.unarchiveObject(with: temp as! Data) as! [ProductData]
+        }
+        tableView.reloadData()
+    }
+    
+    func userDidExist(noti:Notification){
+        currentUser = noti.userInfo!["PASS"] as? UserData
+    }
+    
+    func userNotExist(noti:Notification){
+        currentUser = nil
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -67,22 +80,18 @@ class FirstTableViewController: UITableViewController {
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "topCell", for: indexPath) as! FirstTopCell
             cell.selectionStyle = .none
             cell.startPlace.tag = 0
             
-            cell.startPlace.addTarget(self, action: #selector(changeStartPlace), for: .touchUpInside)
             cell.direction.addTarget(self, action: #selector(changeDirection), for: .touchUpInside)
-            cell.destination.addTarget(self, action: #selector(changeDestination), for: .touchUpInside)
-            
             return cell
         }
         else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "dataCell", for: indexPath) as! FirstDataCell
             
-            cell.productImage.image = UIImage( named: products[indexPath.row - 1].picture )
+            cell.productImage.image = UIImage(named: products[indexPath.row - 1].picture)
             cell.productName.text = products[indexPath.row - 1].store + products[indexPath.row - 1].name
             cell.productDueDate.text! = products[indexPath.row - 1].deadLine
             cell.productPrice.text = "$\(products[indexPath.row - 1].total)"
@@ -120,7 +129,6 @@ class FirstTableViewController: UITableViewController {
             //(tableView.cellForRow(at: indexPath) as! FirstTopCell).isSelected = false
         }
         else{
-            print(indexPath.row)
             performSegue(withIdentifier: "showDetail", sender: indexPath.row)
         }
     }
@@ -130,20 +138,31 @@ class FirstTableViewController: UITableViewController {
             let controller = segue.destination as! DetailViewController
             controller.productData = products[sender as! Int - 1]
             controller.whichController = 1
+            controller.state = state
+            controller.key = key
+            if currentUser != nil
+            {
+                controller.currentUser = currentUser
+            }
         }
         
     }
 
-    @IBAction func changeStartPlace(sender: UIButton){
-        sender.setTitle("hi", for: .normal)
-    }
-    
     @IBAction func changeDirection(sender: UIButton){
-        sender.setTitle("<-", for: .normal)
-    }
-    
-    @IBAction func changeDestination(sender: UIButton){
-        sender.setTitle("hi", for: .normal)
+        if state == "Taiwan"
+        {
+            sender.setImage(UIImage(named: "back"), for: .normal)
+            state = "China"
+            key = "productListC2"
+        }
+        else
+        {
+            sender.setImage(UIImage(named: "go"), for: .normal)
+            state = "Taiwan"
+            key = "productListT2"
+        }
+        viewDidLoad()
+        tableView.reloadData()
     }
 
 }

@@ -22,7 +22,7 @@ class ProductTableViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -48,16 +48,25 @@ class ProductTableViewController: UITableViewController {
         return cell
     }
  
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 50
+        
+    }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "doneChoose" {
             let controller = segue.destination as! SecondViewController
             controller.chosen = userChosen
+            controller.hidesBottomBarWhenPushed = false
         }
     }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         userChosen = dataShow[indexPath.row]
-        performSegue(withIdentifier: "doneChoose", sender: indexPath.row)
+        
+        let notificationName = Notification.Name("NewProduct")
+        NotificationCenter.default.post(name: notificationName, object: nil, userInfo: ["PASS":userChosen!])
+        
+        self.dismiss(animated: true , completion: nil)
     }
     
     

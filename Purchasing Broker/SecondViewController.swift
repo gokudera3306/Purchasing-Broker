@@ -20,18 +20,34 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var myDatePicker: UIDatePicker!
     @IBOutlet weak var doneBtn: UIButton!
     @IBOutlet weak var send: UIButton!
+    @IBOutlet weak var myStepper: UIStepper!
     
+    @IBOutlet weak var alert: UIImageView!
     
     var dateString = ""
     var done = 1
     var checked = [false, false, false, false, false]
+    var previousNum = 1
     
-    let defaultUser = UserData(initName: "TEST1", initAccount: "aaa", initPassword: "0000", initHometown: "台灣", initCredit: 2)
     var products = [ProductData]()
     var chosen: dataBaseData? = nil
+    var order: ProductData? = nil
+    var currentUser: UserData? = nil
+    
+    var state = "Taiwan"
+    var key = "productListT2"
     
     @IBAction func stepperClick(_ sender: UIStepper) {
         productAmount.text = String(NSString(format: "%.0f", sender.value))
+        if checked[2] == true{
+            if previousNum != 0{
+                productPrice.text = "\(Int(productPrice.text!)! * Int(productAmount.text!)! / previousNum)"
+            }
+            else{
+                productPrice.text = productPrice.text
+            }
+        }
+        previousNum = Int(productAmount.text!)!
     }
 
     @IBAction func chooseDate(_ sender: UIButton) {
@@ -49,7 +65,6 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
         dateFormatter.dateFormat = "YYYY/MM/dd"
         dateString = dateFormatter.string(from: myDatePicker.date)
         doneBtn.setTitle("確認", for: .normal)
-        
     }
     
     @IBAction func doneChaged(_ sender: Any) {
@@ -70,6 +85,12 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func showHotItem(_ sender: UIButton) {
+        done = 1
+        checked[0] = false
+        checked[1] = false
+        checked[2] = false
+        checked[3] = false
+        checked[4] = false
         performSegue(withIdentifier: "showHotItem", sender: nil)
     }
     
@@ -77,25 +98,35 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
     @IBAction func doneAndSent(_ sender: UIButton) {
          if done == 6
         {
+            products.removeAll()
             let alerController_done = UIAlertController(title: nil , message: "確認送出？", preferredStyle: UIAlertControllerStyle.alert)
             let doneAction = UIAlertAction(title: "確定", style: UIAlertActionStyle.cancel )
             { (action:UIAlertAction) in
                 let saveProduct = UserDefaults.standard
-
-                if let temp = saveProduct.object(forKey: "productList2"){
+                if let temp = saveProduct.object(forKey: self.key){
                     self.products = NSKeyedUnarchiver.unarchiveObject(with: temp as! Data) as! [ProductData]
                 }
-                let order = ProductData(initStore: String(self.storeName.text!), initName: String(self.productName.text!), initNumber: Int(self.productAmount.text!)!, initPrice: Int(self.productPrice.text!)!, initDestination: "中國", initPurchacePlace: "台灣", initBuyer: self.defaultUser, initPicture: "暫時", initDeadLine: self.dateString, initOfferPrice: Int(self.offerPrice.text!)!)
-                self.products.append(order)
-                    
+                
+                self.order = ProductData(initStore: String(self.storeName.text!), initName: String(self.productName.text!), initNumber: Int(self.productAmount.text!)!, initPrice: Int(self.productPrice.text!)!, initDestination: "中國", initPurchacePlace: "台灣", initBuyer: self.currentUser!, initPicture: (self.chosen?.picture)!, initDeadLine: self.dateString, initOfferPrice: Int(self.offerPrice.text!)!)
+                
+                self.products.append(self.order!)
                 let encodedData = NSKeyedArchiver.archivedData(withRootObject: self.products)
-                saveProduct.set(encodedData, forKey: "productList2")
+                saveProduct.set(encodedData, forKey: self.key)
+              
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "reload"), object: nil)
+                
+                self.clear()
+                self.dismiss(animated: true, completion: nil)
+                /*let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let viewController = storyboard.instantiateViewController(withIdentifier: "thirdRoot") as! UINavigationController
+                self.present(viewController, animated: true, completion: nil)*/                
             }
             
             let notYetAction = UIAlertAction(title: "取消", style: UIAlertActionStyle.default, handler: nil)
             alerController_done.addAction(doneAction)
             alerController_done.addAction(notYetAction)
-            self.present(alerController_done, animated: true, completion: nil)        }
+            self.present(alerController_done, animated: true, completion: nil)
+         }
         else
         {
             let alerController_wrong = UIAlertController(title: "錯誤！", message: "資料尚未完整", preferredStyle: UIAlertControllerStyle.alert)
@@ -113,19 +144,67 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
         productPrice.delegate = self
         offerPrice.delegate = self
         
-        if chosen != nil{
-            storeName.text = chosen?.store
-            productName.text = chosen?.name
-            productPrice.text = "\((chosen?.price)!)"
-            done += 3
-            checked[0] = true
-            checked[1] = true
-            checked[2] = true
+        let saveProduct = UserDefaults.standard
+        let didExist = saveProduct.bool(forKey: "loginState")
+        if didExist == true{
+            alert.isHidden = true
         }
-
+        
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(addNewProduct(noti:)), name: Notification.Name("NewProduct"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(userDidExist(noti:)), name: Notification.Name("userLogin"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(userNotExist(noti:)), name: Notification.Name("userLogout"), object: nil)
         // Do any additional setup after loading the view.
     }
-
+    
+    func clear()
+    {
+        done = 1
+        checked = [false, false, false, false, false]
+        previousNum = 1
+        
+        picture.image = UIImage(named: "暫時")
+        storeName.text = ""
+        productName.text = ""
+        productPrice.text = ""
+        offerPrice.text = ""
+        myStepper.stepValue = 1
+        productAmount.text = "1"
+        //myDatePicker.setDate(date, animated: true)
+    }
+    
+    func addNewProduct(noti:Notification){
+        chosen = noti.userInfo!["PASS"] as? dataBaseData
+        picture.image = UIImage(named: (chosen?.picture)!)
+        storeName.text = chosen?.store
+        productName.text = chosen?.name
+        productPrice.text = "\(Int((chosen?.price)!) * Int(productAmount.text!)!)"
+        
+        done += 3
+        checked[0] = true
+        checked[1] = true
+        checked[2] = true
+    }
+    func userDidExist(noti:Notification){
+        currentUser = noti.userInfo!["PASS"] as? UserData
+        alert.isHidden = true
+        if currentUser?.hometown == "台灣"
+        {
+            state = "China"
+            key = "productListC2"
+        }
+        else
+        {
+            state = "Taiwan"
+            key = "productListT2"
+        }
+    }
+    
+    func userNotExist(noti:Notification){
+        currentUser = nil
+        alert.isHidden = false
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -187,8 +266,10 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "showHotItem"{
-            //let controller = segue.destination as! StoreTableViewController
+        if segue.identifier == "showHotItem" {
+            let controller = segue.destination as! UINavigationController
+            let targetController = controller.topViewController as! StoreTableViewController
+            targetController.state = state
         }
     }
 

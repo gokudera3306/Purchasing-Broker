@@ -22,9 +22,18 @@ class StoreTableViewController: UITableViewController {
     let defaultProduct10 = dataBaseData(initStore: "依蕾特",initName: "抹茶紅豆乳酪塔(6入)", initPrice: 390, initPurchacePlace: "台灣", initPicture: "抹茶紅豆乳酪塔")
     let defaultProduct11 = dataBaseData(initStore: "依蕾特",initName: "草莓乳酪塔(6入)", initPrice: 390, initPurchacePlace: "台灣", initPicture: "草莓乳酪塔")
     */
+    
+    let defaultProduct1 = dataBaseData(initStore: "鼎丰真",initName: "椰条300g", initPrice: 14, initPurchacePlace: "中國大陸", initPicture: "椰條")
+    let defaultProduct2 = dataBaseData(initStore: "鼎丰真",initName: "格子曲奇饼干200g", initPrice: 14, initPurchacePlace: "中國大陸", initPicture: "格子曲奇")
+    let defaultProduct3 = dataBaseData(initStore: "鼎丰真",initName: "椰丝曲奇饼干200g", initPrice: 14, initPurchacePlace: "中國大陸", initPicture: "椰絲曲奇")
+    
     var dataBase = [dataBaseData]()
     var dataPass = [dataBaseData]()
+    var storeNameT = ["裕珍馨", "依蕾特"]
+    var storeNameC = ["鼎丰真"]
     var storeName = ["裕珍馨", "依蕾特"]
+
+    var state = "Taiwan"
     
     @IBAction func back(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
@@ -37,11 +46,24 @@ class StoreTableViewController: UITableViewController {
         let saveProduct = UserDefaults.standard
         
         //saveProduct.removeObject(forKey: "dataBaseData")
-        
-        if let temp = saveProduct.object(forKey: "dataBaseData")
+        if state == "Taiwan"
         {
-            dataBase = NSKeyedUnarchiver.unarchiveObject(with: temp as! Data) as! [dataBaseData]
+            if let temp = saveProduct.object(forKey: "dataBaseData")
+            {
+                dataBase = NSKeyedUnarchiver.unarchiveObject(with: temp as! Data) as! [dataBaseData]
+            }
+            storeName = storeNameT
         }
+        else
+        {
+            if let temp = saveProduct.object(forKey: "dataBaseDataC")
+            {
+                dataBase = NSKeyedUnarchiver.unarchiveObject(with: temp as! Data) as! [dataBaseData]
+            }
+            storeName = storeNameC
+        }
+        
+        
         /*
         dataBase.append(defaultProduct1)
         dataBase.append(defaultProduct2)
@@ -56,7 +78,7 @@ class StoreTableViewController: UITableViewController {
         dataBase.append(defaultProduct11)
  
         let encodeDate = NSKeyedArchiver.archivedData(withRootObject: dataBase)
-        saveProduct.set(encodeDate, forKey: "dataBaseData")*/
+        saveProduct.set(encodeDate, forKey: "dataBaseDataC")*/
     
         
         
@@ -91,11 +113,8 @@ class StoreTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "dataCell", for: indexPath) as! storeDataCell
-        
         cell.storeName.text = storeName[indexPath.row]
-
         
-
         return cell
     }
     

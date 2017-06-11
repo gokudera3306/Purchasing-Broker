@@ -30,6 +30,11 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var productImage: UIImageView!
     @IBOutlet weak var getOrderBtn: UIButton!
     
+    var currentUser: UserData? = nil
+    var products = [ProductData]()
+    var state = "Taiwan"
+    var key = "productListT2"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -41,7 +46,7 @@ class DetailViewController: UIViewController {
         productPrice.text = "$\((productData?.price)!)"
         totalPrice.text = "$\((productData?.total)!)"
         offerPrice.text = "$\((productData?.offerPrice)!)"
-        productOrigin.text = (productData?.purchacePlace)!
+        productOrigin.text = "\((productData?.buyer?.account)!)"
         productDeadLine.text = (productData?.deadLine)!
         
         if (productData?.buyer)!.credit >= 1 {
@@ -64,7 +69,27 @@ class DetailViewController: UIViewController {
             getOrderBtn.isHidden = true
             getOrderBtn.isEnabled = false
         }
+        
+        if productData?.broker == nil
+        {
+            if currentUser == nil
+            {
+                getOrderBtn.isEnabled = false
+            }
+            else
+            {
+                getOrderBtn.isEnabled = true
+            }
+        }
+        else
+        {
+            getOrderBtn.isEnabled = false
+            getOrderBtn.setTitle("已被承接", for: .normal)
+            getOrderBtn.setTitleColor(UIColor.red, for: .normal)
+        }
     }
+    
+
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -73,11 +98,29 @@ class DetailViewController: UIViewController {
     
     @IBAction func getOrder(_ sender: Any) {
         let saveProduct = UserDefaults.standard
+        products.removeAll()
+        if let temp = saveProduct.object(forKey: key){
+            products = NSKeyedUnarchiver.unarchiveObject(with: temp as! Data) as! [ProductData]
+        }
+        var j = 0
+        for var i in 0...products.count-1
+        {
+            if products[i].buyer?.account == productData?.buyer?.account && products[i].name == productData?.name
+            {
+                j = i
+                products[i].setBroker(brokerCatch: currentUser!)
+                productData?.broker = currentUser
+            }
+        }
+        let encodedData = NSKeyedArchiver.archivedData(withRootObject: products)
+        print(products[j].broker!)
+        saveProduct.set(encodedData, forKey: key)
         
-        //存入使用者
-        
-        //存入記憶體
-        
+        getOrderBtn.isEnabled = false
+        getOrderBtn.setTitle("已被承接", for: .normal)
+        getOrderBtn.setTitleColor(UIColor.red, for: .normal)
+        viewDidLoad()
+
     }
 
     /*

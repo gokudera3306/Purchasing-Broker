@@ -14,6 +14,7 @@ public class UserData:NSObject,NSCoding
     var account: String
     var password: String
     var hometown: String
+    var phone: String
     
     var credit: Int
 
@@ -23,14 +24,15 @@ public class UserData:NSObject,NSCoding
         password = "init"
         hometown = "init"
         credit = 0
+        phone = "init"
     }
     
-    init(initName: String, initAccount: String, initPassword: String, initHometown: String, initCredit: Int) {
+    init(initName: String, initAccount: String, initPassword: String, initHometown: String, initCredit: Int, initPhone: String) {
         name = initName
         account = initAccount
         password = initPassword
         hometown = initHometown
-        
+        phone = initPhone
         credit = initCredit
     }
     
@@ -40,7 +42,8 @@ public class UserData:NSObject,NSCoding
         self.account = aDecoder.decodeObject(forKey: "account") as! String!
         self.password = aDecoder.decodeObject(forKey: "password") as! String!
         self.hometown = aDecoder.decodeObject(forKey: "hometown") as! String!
-        
+        self.phone = aDecoder.decodeObject(forKey: "phone") as! String!
+
         self.credit = aDecoder.decodeInteger(forKey: "credit") as Int!
     }
     
@@ -49,6 +52,7 @@ public class UserData:NSObject,NSCoding
         aCoder.encode(self.account, forKey: "account")
         aCoder.encode(self.password, forKey: "password")
         aCoder.encode(self.hometown, forKey: "hometown")
+        aCoder.encode(self.phone, forKey: "phone")
         
         aCoder.encodeCInt(Int32(self.credit), forKey: "credit")
     }

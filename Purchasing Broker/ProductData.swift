@@ -89,4 +89,8 @@ public class ProductData: NSObject, NSCoding
         aCoder.encodeCInt(Int32(self.total), forKey: "total")
         aCoder.encode(self.broker, forKey: "broker")
     }
+    public func setBroker(brokerCatch: UserData)
+    {
+        broker = brokerCatch
+    }
 }

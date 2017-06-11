@@ -9,25 +9,21 @@
 import UIKit
 
 class ThirdTableTableViewController: UITableViewController {
-    
-    let defaultUser = UserData(initName: "TEST1", initAccount: "aaa", initPassword: "0000", initHometown: "台灣", initCredit: 2)
-    let defaultUser2 = UserData(initName: "TEST2", initAccount: "bbb", initPassword: "0000", initHometown: "台灣", initCredit: 5)
-    
     var products = [ProductData]()
     var catchItem = [ProductData]()
     var postItem = [ProductData]()
     var itemShow = [ProductData]()
     var itemCount = 0
-    var situation = "catched"
-    
-    
-    
+    var situation = "posted"
+    var currentUser: UserData? = nil
+    var key = "productListT2"
     
     @IBAction func clickCatched(_ sender: UIButton) {
         itemCount = catchItem.count
         itemShow = catchItem
         situation = "catched"
-        
+       
+        viewDidLoad()
         tableView.reloadData()//更新頁面
     }
     
@@ -36,40 +32,90 @@ class ThirdTableTableViewController: UITableViewController {
         itemShow = postItem
         situation = "posted"
         
+        viewDidLoad()
         tableView.reloadData()
     }
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        
         let saveProduct = UserDefaults.standard
         
-        //saveProduct.removeObject(forKey: "productList")
+        products.removeAll()
         
-        if let temp = saveProduct.object(forKey: "productList2"){
+        if let temp = saveProduct.object(forKey: key){
             products = NSKeyedUnarchiver.unarchiveObject(with: temp as! Data) as! [ProductData]
         }
-         for var i in 0...products.count-1{
-            if products[i].buyer?.account == defaultUser.account{
-                postItem.append(products[i])
+        
+        postItem.removeAll()
+        catchItem.removeAll()
+        itemShow.removeAll()
+
+        if products.count != 0 && currentUser != nil{
+            for var i in 0...products.count-1{
+                
+                if products[i].buyer?.account == currentUser?.account{
+                    postItem.append(products[i])
+                }
+                if products[i].broker?.account == currentUser?.account{
+                    catchItem.append(products[i])
+                }
             }
-         }
-         
-         for var i in 0...products.count-1{
-            if products[i].broker?.account == defaultUser.account{
-                catchItem.append(products[i])
-            }
-         }
-        //default 已承接
-        itemCount = catchItem.count
-        itemShow = catchItem
+        }
+        else{
+            
+        }
+        NotificationCenter.default.addObserver(self, selector:
+            #selector(reloadTableData(_:)), name:NSNotification.Name(rawValue: "reload"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(userDidExist(noti:)), name: Notification.Name("userLogin"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(userNotExist(noti:)), name: Notification.Name("userLogout"), object: nil)
+        
+        if situation == "posted"
+        {
+            itemCount = postItem.count
+            itemShow = postItem
+        }
+        else{
+            itemCount = catchItem.count
+            itemShow = catchItem
+        }
+        
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+    }
+    
+    func reloadTableData(_ notification: Notification){
+        let saveProduct = UserDefaults.standard
+        if let temp = saveProduct.object(forKey: key){
+            products = NSKeyedUnarchiver.unarchiveObject(with: temp as! Data) as! [ProductData]
+        }
+        viewDidLoad()
+        tableView.reloadData()
+    }
+    
+    func userDidExist(noti:Notification){
+        currentUser = noti.userInfo!["PASS"] as? UserData
+        if currentUser?.hometown == "台灣"
+        {
+            key = "productListC2"
+        }
+        else
+        {
+            key = "productListT2"
+        }
+        viewDidLoad()
+        tableView.reloadData()
+    }
+    
+    func userNotExist(noti:Notification){
+        currentUser = nil
+        viewDidLoad()
+        tableView.reloadData()
     }
 
     override func didReceiveMemoryWarning() {
@@ -157,7 +203,6 @@ class ThirdTableTableViewController: UITableViewController {
         if indexPath.row == 0 {
             return 50
         }
-        
         return 125
     }
 
