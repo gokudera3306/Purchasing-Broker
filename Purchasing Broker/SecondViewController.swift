@@ -139,6 +139,8 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.hideKeyboardWhenTappedAround()
+        
         storeName.delegate = self
         productName.delegate = self
         productPrice.delegate = self
@@ -271,6 +273,16 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
             let targetController = controller.topViewController as! StoreTableViewController
             targetController.state = state
         }
+    }
+    
+    func hideKeyboardWhenTappedAround() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(SecondViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    func dismissKeyboard() {
+        view.endEditing(true)
     }
 
     /*

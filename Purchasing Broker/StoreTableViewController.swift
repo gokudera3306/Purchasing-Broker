@@ -9,7 +9,7 @@
 import UIKit
 
 class StoreTableViewController: UITableViewController {
-    /*
+    
     let defaultProduct1 = dataBaseData(initStore: "裕珍馨", initName: "鳳梨酥禮盒(10入)", initPrice: 210, initPurchacePlace: "台灣", initPicture: "鳳梨酥")
     let defaultProduct2 = dataBaseData(initStore: "裕珍馨",initName: "奶油酥餅(3入)", initPrice: 120, initPurchacePlace: "台灣", initPicture: "奶油酥餅")
     let defaultProduct3 = dataBaseData(initStore: "依蕾特",initName: "鮮奶布丁禮盒(12入)", initPrice: 390, initPurchacePlace: "台灣", initPicture: "布丁奶酪")
@@ -21,11 +21,11 @@ class StoreTableViewController: UITableViewController {
     let defaultProduct9 = dataBaseData(initStore: "依蕾特",initName: "檸檬乳酪塔(6入)", initPrice: 390, initPurchacePlace: "台灣", initPicture: "檸檬乳酪塔")
     let defaultProduct10 = dataBaseData(initStore: "依蕾特",initName: "抹茶紅豆乳酪塔(6入)", initPrice: 390, initPurchacePlace: "台灣", initPicture: "抹茶紅豆乳酪塔")
     let defaultProduct11 = dataBaseData(initStore: "依蕾特",initName: "草莓乳酪塔(6入)", initPrice: 390, initPurchacePlace: "台灣", initPicture: "草莓乳酪塔")
-    */
+ 
     
-    let defaultProduct1 = dataBaseData(initStore: "鼎丰真",initName: "椰条300g", initPrice: 14, initPurchacePlace: "中國大陸", initPicture: "椰條")
-    let defaultProduct2 = dataBaseData(initStore: "鼎丰真",initName: "格子曲奇饼干200g", initPrice: 14, initPurchacePlace: "中國大陸", initPicture: "格子曲奇")
-    let defaultProduct3 = dataBaseData(initStore: "鼎丰真",initName: "椰丝曲奇饼干200g", initPrice: 14, initPurchacePlace: "中國大陸", initPicture: "椰絲曲奇")
+    let defaultProduct12 = dataBaseData(initStore: "鼎丰真",initName: "椰条300g", initPrice: 14, initPurchacePlace: "中國大陸", initPicture: "椰條")
+    let defaultProduct13 = dataBaseData(initStore: "鼎丰真",initName: "格子曲奇饼干200g", initPrice: 14, initPurchacePlace: "中國大陸", initPicture: "格子曲奇")
+    let defaultProduct14 = dataBaseData(initStore: "鼎丰真",initName: "椰丝曲奇饼干200g", initPrice: 14, initPurchacePlace: "中國大陸", initPicture: "椰絲曲奇")
     
     var dataBase = [dataBaseData]()
     var dataPass = [dataBaseData]()
@@ -52,6 +52,22 @@ class StoreTableViewController: UITableViewController {
             {
                 dataBase = NSKeyedUnarchiver.unarchiveObject(with: temp as! Data) as! [dataBaseData]
             }
+            
+//            dataBase.append(defaultProduct1)
+//            dataBase.append(defaultProduct2)
+//            dataBase.append(defaultProduct3)
+//            dataBase.append(defaultProduct4)
+//            dataBase.append(defaultProduct5)
+//            dataBase.append(defaultProduct6)
+//            dataBase.append(defaultProduct7)
+//            dataBase.append(defaultProduct8)
+//            dataBase.append(defaultProduct9)
+//            dataBase.append(defaultProduct10)
+//            dataBase.append(defaultProduct11)
+            
+            let encodeDate = NSKeyedArchiver.archivedData(withRootObject: dataBase)
+            saveProduct.set(encodeDate, forKey: "dataBaseData")
+            
             storeName = storeNameT
         }
         else
@@ -60,27 +76,16 @@ class StoreTableViewController: UITableViewController {
             {
                 dataBase = NSKeyedUnarchiver.unarchiveObject(with: temp as! Data) as! [dataBaseData]
             }
+            
+//            dataBase.append(defaultProduct12)
+//            dataBase.append(defaultProduct13)
+//            dataBase.append(defaultProduct14)
+            
+            let encodeDate = NSKeyedArchiver.archivedData(withRootObject: dataBase)
+            saveProduct.set(encodeDate, forKey: "dataBaseDataC")
+            
             storeName = storeNameC
         }
-        
-        
-        /*
-        dataBase.append(defaultProduct1)
-        dataBase.append(defaultProduct2)
-        dataBase.append(defaultProduct3)
-        dataBase.append(defaultProduct4)
-        dataBase.append(defaultProduct5)
-        dataBase.append(defaultProduct6)
-        dataBase.append(defaultProduct7)
-        dataBase.append(defaultProduct8)
-        dataBase.append(defaultProduct9)
-        dataBase.append(defaultProduct10)
-        dataBase.append(defaultProduct11)
- 
-        let encodeDate = NSKeyedArchiver.archivedData(withRootObject: dataBase)
-        saveProduct.set(encodeDate, forKey: "dataBaseDataC")*/
-    
-        
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
