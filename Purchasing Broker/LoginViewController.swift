@@ -89,6 +89,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.hideKeyboardWhenTappedAround()
         
         userAccount.delegate = self
         userPassword.delegate = self
@@ -136,19 +137,19 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == userAccount
         {
-            userPassword.becomeFirstResponder()
+            userAccount.resignFirstResponder()
         }
         else if textField == userPassword
         {
-            userName.becomeFirstResponder()
+            userPassword.resignFirstResponder()
         }
         else if textField == userName
         {
-            userCountry.becomeFirstResponder()
+            userName.resignFirstResponder()
         }
         else if textField == userCountry
         {
-            userPhoneNum.becomeFirstResponder()
+            userCountry.resignFirstResponder()
         }
         else
         {
@@ -157,7 +158,17 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         return true
     }
 
-
+    func hideKeyboardWhenTappedAround() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(LoginViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
+    
     /*
     // MARK: - Navigation
 
