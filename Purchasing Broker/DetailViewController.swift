@@ -33,7 +33,7 @@ class DetailViewController: UIViewController {
     var currentUser: UserData? = nil
     var products = [ProductData]()
     var state = "Taiwan"
-    var key = "productListT2"
+    var key = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -109,7 +109,7 @@ class DetailViewController: UIViewController {
             {
                 j = i
                 products[i].setBroker(brokerCatch: currentUser!)
-                productData?.broker = currentUser
+                //productData?.broker = currentUser
             }
         }
         let encodedData = NSKeyedArchiver.archivedData(withRootObject: products)

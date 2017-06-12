@@ -71,7 +71,7 @@ public class ProductData: NSObject, NSCoding
         self.offerPrice = aDecoder.decodeInteger(forKey: "offerPrice") as Int!
         
         self.total = self.number * self.price
-        self.broker = nil
+        self.broker = aDecoder.decodeObject(forKey: "broker") as! UserData!
     }
     
     public func encode(with aCoder: NSCoder) {
