@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var userAccount: UITextField!
     @IBOutlet weak var userPassword: UITextField!
     @IBOutlet weak var userName: UITextField!
@@ -90,6 +90,12 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        userAccount.delegate = self
+        userPassword.delegate = self
+        userName.delegate = self
+        userCountry.delegate = self
+        userPhoneNum.delegate = self
+        
         userAccount.text = ""
         userPassword.text = ""
         userName.text = ""
@@ -127,6 +133,30 @@ class LoginViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == userAccount
+        {
+            userPassword.becomeFirstResponder()
+        }
+        else if textField == userPassword
+        {
+            userName.becomeFirstResponder()
+        }
+        else if textField == userName
+        {
+            userCountry.becomeFirstResponder()
+        }
+        else if textField == userCountry
+        {
+            userPhoneNum.becomeFirstResponder()
+        }
+        else
+        {
+           userPhoneNum.resignFirstResponder()
+        }
+        return true
+    }
+
 
     /*
     // MARK: - Navigation
