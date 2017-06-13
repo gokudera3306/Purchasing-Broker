@@ -42,6 +42,8 @@ class StoreTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        view.backgroundColor = UIColor(colorLiteralRed: 211/255, green: 221/255, blue: 235/255, alpha: 1.0)
 
         let saveProduct = UserDefaults.standard
         
@@ -52,22 +54,22 @@ class StoreTableViewController: UITableViewController {
             {
                 dataBase = NSKeyedUnarchiver.unarchiveObject(with: temp as! Data) as! [dataBaseData]
             }
-            
-//            dataBase.append(defaultProduct1)
-//            dataBase.append(defaultProduct2)
-//            dataBase.append(defaultProduct3)
-//            dataBase.append(defaultProduct4)
-//            dataBase.append(defaultProduct5)
-//            dataBase.append(defaultProduct6)
-//            dataBase.append(defaultProduct7)
-//            dataBase.append(defaultProduct8)
-//            dataBase.append(defaultProduct9)
-//            dataBase.append(defaultProduct10)
-//            dataBase.append(defaultProduct11)
-            
+            /*
+            dataBase.append(defaultProduct1)
+            dataBase.append(defaultProduct2)
+            dataBase.append(defaultProduct3)
+            dataBase.append(defaultProduct4)
+            dataBase.append(defaultProduct5)
+            dataBase.append(defaultProduct6)
+            dataBase.append(defaultProduct7)
+            dataBase.append(defaultProduct8)
+            dataBase.append(defaultProduct9)
+            dataBase.append(defaultProduct10)
+            dataBase.append(defaultProduct11)
+ 
             let encodeDate = NSKeyedArchiver.archivedData(withRootObject: dataBase)
             saveProduct.set(encodeDate, forKey: "dataBaseData")
-            
+            */
             storeName = storeNameT
         }
         else
@@ -76,14 +78,14 @@ class StoreTableViewController: UITableViewController {
             {
                 dataBase = NSKeyedUnarchiver.unarchiveObject(with: temp as! Data) as! [dataBaseData]
             }
-            
-//            dataBase.append(defaultProduct12)
-//            dataBase.append(defaultProduct13)
-//            dataBase.append(defaultProduct14)
+            /*
+            dataBase.append(defaultProduct12)
+            dataBase.append(defaultProduct13)
+            dataBase.append(defaultProduct14)
             
             let encodeDate = NSKeyedArchiver.archivedData(withRootObject: dataBase)
             saveProduct.set(encodeDate, forKey: "dataBaseDataC")
-            
+            */
             storeName = storeNameC
         }
         

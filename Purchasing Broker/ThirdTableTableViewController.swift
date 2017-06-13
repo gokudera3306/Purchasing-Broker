@@ -10,6 +10,8 @@ import UIKit
 
 class ThirdTableTableViewController: UITableViewController {
     var products = [ProductData]()
+    var productsT = [ProductData]()
+    var productsC = [ProductData]()
     var catchItem = [ProductData]()
     var postItem = [ProductData]()
     var itemShow = [ProductData]()
@@ -40,12 +42,21 @@ class ThirdTableTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.backgroundColor = UIColor(colorLiteralRed: 211/255, green: 221/255, blue: 235/255, alpha: 1.0)
+        
         let saveProduct = UserDefaults.standard
         
         products.removeAll()
         
         if let temp = saveProduct.object(forKey: key){
             products = NSKeyedUnarchiver.unarchiveObject(with: temp as! Data) as! [ProductData]
+        }
+        
+        if let temp = saveProduct.object(forKey: "productListT2"){
+            productsT = NSKeyedUnarchiver.unarchiveObject(with: temp as! Data) as! [ProductData]
+        }
+        if let temp = saveProduct.object(forKey: "productListC2"){
+            productsC = NSKeyedUnarchiver.unarchiveObject(with: temp as! Data) as! [ProductData]
         }
         
         postItem.removeAll()
@@ -58,14 +69,26 @@ class ThirdTableTableViewController: UITableViewController {
                 if products[i].buyer?.account == currentUser?.account{
                     postItem.append(products[i])
                 }
-                if products[i].broker?.account == currentUser?.account{
-                    catchItem.append(products[i])
+                
+            }
+        }
+       if productsC.count != 0 && currentUser != nil
+        {
+            for var i in 0...productsC.count-1{
+                if productsC[i].broker?.account == currentUser?.account{
+                    catchItem.append(productsC[i])
+                }
+            }
+            if productsT.count != 0
+            {
+                for var i in 0...productsT.count-1{
+                    if productsT[i].broker?.account == currentUser?.account{
+                        catchItem.append(productsT[i])
+                    }
                 }
             }
         }
-        else{
-            
-        }
+        
         NotificationCenter.default.addObserver(self, selector:
             #selector(reloadTableData(_:)), name:NSNotification.Name(rawValue: "reload"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(userDidExist(noti:)), name: Notification.Name("userLogin"), object: nil)

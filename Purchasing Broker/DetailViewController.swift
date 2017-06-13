@@ -37,7 +37,9 @@ class DetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        view.backgroundColor = UIColor(colorLiteralRed: 211/255, green: 221/255, blue: 235/255, alpha: 1.0)
+        
         // Do any additional setup after loading the view.
         
         self.title = (productData?.store)! + (productData?.name)!
@@ -119,6 +121,9 @@ class DetailViewController: UIViewController {
         getOrderBtn.isEnabled = false
         getOrderBtn.setTitle("已被承接", for: .normal)
         getOrderBtn.setTitleColor(UIColor.red, for: .normal)
+        
+        NotificationCenter.default.post(name: Notification.Name("catch"), object: nil)
+        
         viewDidLoad()
 
     }

@@ -17,14 +17,16 @@ class FirstTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.tabBarItem.image = UIImage(named: "tab1")!.withRenderingMode(UIImageRenderingMode.alwaysOriginal)
+        self.tabBarItem.selectedImage = UIImage(named: "tab1")!.withRenderingMode(UIImageRenderingMode.alwaysOriginal)
+        
+        view.backgroundColor = UIColor(colorLiteralRed: 211/255, green: 221/255, blue: 235/255, alpha: 1.0)
         let saveProduct = UserDefaults.standard
         
         //saveProduct.removeObject(forKey: "productListT2")
         //saveProduct.removeObject(forKey: "productListC2")
         
         products.removeAll()
-        
        
         if let temp = saveProduct.object(forKey: key){
             products = NSKeyedUnarchiver.unarchiveObject(with: temp as! Data) as! [ProductData]
@@ -32,6 +34,7 @@ class FirstTableViewController: UITableViewController {
         
         saveProduct.set(false, forKey: "loginState")
 
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadTableData(_:)), name:NSNotification.Name(rawValue: "catch"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(reloadTableData(_:)), name:NSNotification.Name(rawValue: "reload"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(userDidExist(noti:)), name: Notification.Name("userLogin"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(userNotExist(noti:)), name: Notification.Name("userLogout"), object: nil)

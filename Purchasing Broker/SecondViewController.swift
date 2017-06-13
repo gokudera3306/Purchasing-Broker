@@ -140,6 +140,7 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.hideKeyboardWhenTappedAround()
+        view.backgroundColor = UIColor(colorLiteralRed: 211/255, green: 221/255, blue: 235/255, alpha: 1.0)
         
         storeName.delegate = self
         productName.delegate = self
@@ -170,9 +171,10 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
         productName.text = ""
         productPrice.text = ""
         offerPrice.text = ""
-        myStepper.stepValue = 1
+        myStepper.value = 1
         productAmount.text = "1"
-        //myDatePicker.setDate(date, animated: true)
+        myDatePicker.setDate(Date(), animated: true)
+        deadLine.setTitle("選擇日期", for: .normal)
     }
     
     func addNewProduct(noti:Notification){
@@ -205,6 +207,7 @@ class SecondViewController: UIViewController, UITextFieldDelegate {
     func userNotExist(noti:Notification){
         currentUser = nil
         alert.isHidden = false
+        clear()
     }
     
     override func didReceiveMemoryWarning() {
